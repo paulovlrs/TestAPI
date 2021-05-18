@@ -1,0 +1,89 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema",
+  "$id": "http://example.com/example.json",
+  "type": "object",
+  "title": "The root schema",
+  "description": "The root schema comprises the entire JSON document.",
+  "default": {},
+  "examples": [
+    {
+      "id": 9223127516080524419,
+      "petId": 10,
+      "quantity": 1,
+      "shipDate": "2021-05-17T00:00:00.000+0000",
+      "status": "Vendido",
+      "complete": true
+    }
+  ],
+  "required": [
+    "id",
+    "petId",
+    "quantity",
+    "shipDate",
+    "status",
+    "complete"
+  ],
+  "properties": {
+    "id": {
+      "$id": "#/properties/id",
+      "type": "integer",
+      "title": "The id schema",
+      "description": "An explanation about the purpose of this instance.",
+      "default": 0,
+      "examples": [
+        9223127516080524419
+      ]
+    },
+    "petId": {
+      "$id": "#/properties/petId",
+      "type": "integer",
+      "title": "The petId schema",
+      "description": "An explanation about the purpose of this instance.",
+      "default": 0,
+      "examples": [
+        10
+      ]
+    },
+    "quantity": {
+      "$id": "#/properties/quantity",
+      "type": "integer",
+      "title": "The quantity schema",
+      "description": "An explanation about the purpose of this instance.",
+      "default": 0,
+      "examples": [
+        1
+      ]
+    },
+    "shipDate": {
+      "$id": "#/properties/shipDate",
+      "type": "string",
+      "title": "The shipDate schema",
+      "description": "An explanation about the purpose of this instance.",
+      "default": "",
+      "examples": [
+        "2021-05-17T00:00:00.000+0000"
+      ]
+    },
+    "status": {
+      "$id": "#/properties/status",
+      "type": "string",
+      "title": "The status schema",
+      "description": "An explanation about the purpose of this instance.",
+      "default": "",
+      "examples": [
+        "Vendido"
+      ]
+    },
+    "complete": {
+      "$id": "#/properties/complete",
+      "type": "boolean",
+      "title": "The complete schema",
+      "description": "An explanation about the purpose of this instance.",
+      "default": false,
+      "examples": [
+        true
+      ]
+    }
+  },
+  "additionalProperties": true
+}
