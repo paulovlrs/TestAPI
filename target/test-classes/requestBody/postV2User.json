@@ -1,10 +1,10 @@
 {
   "id": 0,
-  "username": "MariaAssuncao",
-  "firstName": "Maria",
-  "lastName": "Assunção",
-  "email": "maria.assuncao@teste.com",
-  "password": "123456",
-  "phone": "31985032115",
+  "username": "user",
+  "firstName": "Fulano ",
+  "lastName": "de tal ",
+  "email": "@teste.com.br",
+  "password": "",
+  "phone": "319",
   "userStatus": 0
 }
