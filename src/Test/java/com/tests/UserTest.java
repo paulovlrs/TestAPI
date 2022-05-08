@@ -7,6 +7,7 @@ import com.factory.UserDataFactory;
 
 import static io.restassured.RestAssured.*;
 
+import io.restassured.path.json.JsonPath;
 import org.aeonbits.owner.ConfigFactory;
 import com.pojo.User;
 import io.restassured.http.ContentType;
@@ -260,5 +261,35 @@ public class UserTest {
         for (int i = 0; i < 5; i++) {
             UserAux.VerificaSeUsuarioExiste(users.get(i).getUsername());
         }
+    }
+
+    @Test
+    public void testLogin() throws IOException {
+        // Crio usuário e recupero o userName
+        String userName = UserAux.CriarUsuario();
+        // Pesquiso usuário e recupero a response
+        JsonPath response = UserAux.RetornaResponseGetUsuario(userName);
+
+        // Realizo o login de usuário
+        given()
+                .contentType(ContentType.JSON)
+                .when()
+                .get(request + "login?username=" + userName
+                        + "&password=" + response.get("password").toString())
+                .then()
+                .statusCode(200);
+    }
+
+    // To Do: Bug API não responde aos status 400
+    @Test
+    public void testLoginInvalidUserNamePassword() throws IOException {
+
+        // Realizo o login de usuário
+        given()
+            .contentType(ContentType.JSON)
+        .when()
+            .get(request + "login?username=&password=")
+        .then()
+            .statusCode(400);
     }
 }

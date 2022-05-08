@@ -3,6 +3,7 @@ package com.auxiliary;
 import com.factory.UserDataFactory;
 import com.pojo.User;
 import io.restassured.http.ContentType;
+import io.restassured.path.json.JsonPath;
 
 import java.io.IOException;
 
@@ -31,6 +32,19 @@ public class UserAux {
                 .get(request + userName)
                 .then()
                 .statusCode(404);
+    }
+
+    public static JsonPath RetornaResponseGetUsuario(String userName) {
+
+        JsonPath jsonPath = given()
+                .contentType(ContentType.JSON)
+                .when()
+                .get(request + userName)
+                .then()
+                .statusCode(200)
+                .extract().jsonPath();
+
+        return jsonPath;
     }
 
     public static String CriarUsuario() throws IOException {
