@@ -1,6 +1,7 @@
 package com.tests;
 
 import com.auxiliary.RandomAux;
+import com.auxiliary.UserAux;
 import com.config.Configuracoes;
 import com.factory.UserDataFactory;
 
@@ -13,10 +14,12 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class UserTest {
 
-    String request = "/user/";
+    protected String request = "/user/";
 
     @Before
     public void setUp() {
@@ -172,45 +175,23 @@ public class UserTest {
 
     @Test
     public void testDeleteUser() throws IOException {
-        User user = UserDataFactory.objectMapperUser();
-        String randValue = RandomAux.rndCaracterAndNumber(15);
-
-        // Altero algumas informações que estavam no JSON
-        user.setUsername(user.getUsername() + randValue);
-        user.setFirstName(user.getFirstName() + randValue);
-        user.setLastName(user.getLastName() + randValue);
-        user.setEmail(randValue + user.getEmail());
-        user.setPassword(randValue);
-        user.setPhone(user.getPhone() + RandomAux.rndNumber(8));
-
-        // Crio o usuário
-        given()
-            .contentType(ContentType.JSON)
-        .when()
-            .body(user)
-            .post(request)
-        .then()
-            .statusCode(200);
+        // Crio usuário e recupero userName
+        String userName = UserAux.CriarUsuario();
 
         // Deleto o usuário
         given()
             .contentType(ContentType.JSON)
         .when()
-            .delete(request + user.getUsername())
+            .delete(request + userName)
         .then()
             .statusCode(200);
 
         // Verifico se o usuário ainda existe
-        given()
-            .contentType(ContentType.JSON)
-        .when()
-            .get(request + user.getUsername())
-        .then()
-            .statusCode(404);
+        UserAux.VerificaSeUsuarioNaoExiste(userName);
     }
 
     @Test
-    public void testDeleteUserNotFound() throws IOException {
+    public void testDeleteUserNotFound(){
 
         // Deleto o usuário não existente
         given()
@@ -223,8 +204,7 @@ public class UserTest {
 
     // To Do: Bug API não responde aos status 400
     @Test
-    public void testDeleteUserInvalid() throws IOException {
-
+    public void testDeleteUserInvalid(){
         // Deleto o usuário não existente
         given()
             .contentType(ContentType.JSON)
@@ -232,5 +212,53 @@ public class UserTest {
             .delete(request)
         .then()
             .statusCode(400);
+    }
+
+    @Test
+    public void testCreateListUser() throws IOException {
+        List<User> users = new ArrayList<>();
+
+        // Quantidade de usuários que serão criados
+        for (int i = 0; i < 5; i++) {
+            // Adiciono o usuário a lista
+            users.add(UserAux.ObjectUser());
+        }
+
+        given()
+                .contentType(ContentType.JSON)
+                .when()
+                .body(users)
+                .post(request + "createWithList")
+                .then()
+                .statusCode(200);
+
+        // Verifica se os usuários foram criados
+        for (int i = 0; i < 5; i++) {
+            UserAux.VerificaSeUsuarioExiste(users.get(i).getUsername());
+        }
+    }
+
+    @Test
+    public void testCreateArrayUser() throws IOException {
+        List<User> users = new ArrayList<>();
+
+        // Quantidade de usuários que serão criados
+        for (int i = 0; i < 5; i++) {
+            // Adiciono o usuário a lista
+            users.add(UserAux.ObjectUser());
+        }
+
+        given()
+                .contentType(ContentType.JSON)
+                .when()
+                .body(users)
+                .post(request + "createWithArray")
+                .then()
+                .statusCode(200);
+
+        // Verifica se os usuários foram criados
+        for (int i = 0; i < 5; i++) {
+            UserAux.VerificaSeUsuarioExiste(users.get(i).getUsername());
+        }
     }
 }
